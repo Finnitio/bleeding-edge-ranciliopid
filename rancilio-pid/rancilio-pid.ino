@@ -800,14 +800,14 @@ void brewCoffee() {
     DEBUG_print("startZeit:(%lu)\n", startZeit);
   }
 
+  userActivity = aktuelleZeit;
   bezugsZeit = aktuelleZeit - startZeit;
-  DEBUG_print("totalbrewtime:(%lu)\n", bezugsZeit);
 }
 
 void dispenseHotWater() {
   // Function switches the pump on to dispense hot
   // water
-
+  userActivity = millis();
   if (digitalRead(pinRelayPumpe) == relayOFF) {
     digitalWrite(pinRelayPumpe, relayON);
     DEBUG_print("pump relay: on.\n");
@@ -827,6 +827,7 @@ void generateSteam() {
     activeState = 6;
     DEBUG_print("set activeState: 6 Steam\n");
   }
+  userActivity = millis();
 }
 
 
@@ -877,8 +878,8 @@ void checkControlSwitches() {
     }
     else {
     standby();
-      if (activeSwitch != 0) {
-        activeSwitch = 0;
+    if (activeSwitch != 0) {
+      activeSwitch = 0;
       }
     }
   }
