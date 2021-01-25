@@ -226,6 +226,8 @@ unsigned long lastBrewMessage   = 0;
 unsigned long previousControlButtonCheck = 0;
 
 int activeSwitch = 0; //Switch that is enabled, used in checkControlSwitch()
+int analogPinValue = 0;
+int analogPinValueOld = 0;
 int switchBrewLowerThreshold = SWITCHBREWLOWERTHRESHOLD; //Threshold checkControlSwitch()
 int switchBrewUpperThreshold = SWITCHBREWUPPERTHRESHOLD; //Threshold checkControlSwitch()
 int switchHotWaterLowerThreshold = SWITCHHOTWATERLOWERTHRESHOLD; //Threshold checkControlSwitch()
@@ -830,8 +832,6 @@ void generateSteam() {
   userActivity = millis();
 }
 
-
-
 void standby() {
   // Checks standby parameters and reverts if necessary
   // is supposed be called regularly
@@ -861,9 +861,14 @@ void standby() {
 void checkControlSwitches() {
    
   if ( millis() >= previousControlButtonCheck ) {
-    //DEBUG_print("Function call: checkControlSwitches()\n");
+    
     previousControlButtonCheck = millis() + 200;
-    int analogPinValue = analogRead(pinBrewButton);
+    analogPinValue = analogRead(pinBrewButton);
+    if (analogPinValue != analogPinValueOld) {
+      DEBUG_print("analogPinValue %2.u\n", analogPinValue);
+      analogPinValueOld = analogPinValue;
+    }
+    analogPinValue = analogRead(pinBrewButton);
     if (switchBrewLowerThreshold < analogPinValue && analogPinValue < switchBrewUpperThreshold) {
       brewCoffee();
       activeSwitch = 1;
@@ -1480,7 +1485,7 @@ void loop() {
           if (now >= lastMQTTStatusReportTime + lastMQTTStatusReportInterval) {
             lastMQTTStatusReportTime = now;
             mqtt_publish("temperature", number2string(Input));
-            mqtt_publish("temperatureAboveTarget", number2string((Input - setPoint)));
+            mqtt_publish("temperatureAboveTarget", number2string((Input - *activeSetPoint)));
             mqtt_publish("heaterUtilization", number2string(convertOutputToUtilisation(Output)));
             mqtt_publish("pastTemperatureChange", number2string(pastTemperatureChange(10)));
             mqtt_publish("brewReady", bool2string(brewReady));
