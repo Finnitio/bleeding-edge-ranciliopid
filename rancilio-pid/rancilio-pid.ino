@@ -1817,7 +1817,7 @@ void sync_eeprom(bool startup_read, bool force_read) {
   if (STEADYPOWER_OFFSET_TIME != steadyPowerOffsetTime_config_saved) { steadyPowerOffsetTime = STEADYPOWER_OFFSET_TIME; EEPROM.put(460, steadyPowerOffsetTime); }
   //if (BURSTPOWER != burstPower_config_saved) { burstPower = BURSTPOWER; EEPROM.put(470, burstPower); }
   if (BREWDETECTION_POWER != brewDetectionPower_config_saved) { brewDetectionPower = BREWDETECTION_POWER; EEPROM.put(480, brewDetectionPower); DEBUG_print("EEPROM: brewDetectionPower (%0.2f) is read from userConfig.h\n", brewDetectionPower); }
-  if (SETPOINTSTEAM != setPointSteam_config_saved) { setPoint = SETPOINT; EEPROM.put(490, setPointSteam); DEBUG_print("EEPROM: setPointSteam (%0.2f) is read from userConfig.h\n", setPointSteam); }
+  if (SETPOINTSTEAM != setPointSteam_config_saved) { setPointSteam = SETPOINTSTEAM; EEPROM.put(490, setPointSteam); DEBUG_print("EEPROM: setPointSteam (%0.2f) is read from userConfig.h\n", setPointSteam); }
   if (AGGKP != aggKpSteam_config_saved) { aggSteamKp = AGGSTEAMKP; EEPROM.put(500, aggSteamKp); }
   if (AGGTN != aggTnSteam_config_saved) { aggSteamTn = AGGSTEAMTN; EEPROM.put(510, aggSteamTn); }
   if (AGGTV != aggTvSteam_config_saved) { aggSteamTv = AGGSTEAMTV; EEPROM.put(520, aggSteamTv); }
