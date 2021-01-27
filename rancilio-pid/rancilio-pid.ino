@@ -1200,7 +1200,7 @@ void updateState() {
       bPID.SetAutoTune(false);  //do not tune during steam phase
       bPID.SetSumOutputI(100);
 
-      if (activeSwitch != 3 && Input <= (setPoint + 1)) {
+      if (activeSwitch != 3 && Input <= (setPoint + outerZoneTemperatureDifference)) {
         snprintf(debugline, sizeof(debugline), "** End of Coolingphase. Transition to step 3 (normal mode)");
         DEBUG_println(debugline);
         mqtt_publish("events", debugline);
@@ -1561,14 +1561,15 @@ void loop() {
         aggSteamKi = 0;
       }
       aggSteamKd = aggSteamTv * aggSteamKp ;
+      bPID.SetTunings(aggSteamKp, aggSteamKi, aggSteamKd);
       if (pidMode == 1) {
-      if (pidMode == 1) bPID.SetMode(AUTOMATIC);
-      if (Input >= setPoint && activeSwitch != 3 && bPID.GetKd() != 0) {
-        bPID.SetTunings(aggoKp, aggoKi, 0); //Avoid kd generating output while cooling down afer steamphase
-        snprintf(debugline, sizeof(debugline), "** generateSteam() disabled . Cooling phase Kd = 0");
-        DEBUG_println(debugline);
-        mqtt_publish("events", debugline);
-      }
+        if (pidMode == 1) bPID.SetMode(AUTOMATIC);
+        if (Input >= setPoint && activeSwitch != 3 && bPID.GetKd() != 0) {
+          bPID.SetTunings(aggoKp, aggoKi, 0); //Avoid kd generating output while cooling down afer steamphase
+          snprintf(debugline, sizeof(debugline), "** generateSteam() disabled . Cooling phase Kd = 0");
+          DEBUG_println(debugline);
+          mqtt_publish("events", debugline);
+        }
       }
     /* state 3: Inner zone reached = "normal" low power mode */
     } else {
