@@ -135,7 +135,7 @@ double previousOutput = 0;
 int pidMode = 1;                   //1 = Automatic, 0 = Manual
 
 double setPoint = SETPOINT;
-double setPointSteam = SETPOINT_STEAM;
+double setPointSteam = SETPOINTSTEAM;
 double * activeSetPoint = &setPoint;
 double starttemp = STARTTEMP;
 
@@ -1820,17 +1820,10 @@ void sync_eeprom(bool startup_read, bool force_read) {
   if (STEADYPOWER_OFFSET_TIME != steadyPowerOffsetTime_config_saved) { steadyPowerOffsetTime = STEADYPOWER_OFFSET_TIME; EEPROM.put(460, steadyPowerOffsetTime); }
   //if (BURSTPOWER != burstPower_config_saved) { burstPower = BURSTPOWER; EEPROM.put(470, burstPower); }
   if (BREWDETECTION_POWER != brewDetectionPower_config_saved) { brewDetectionPower = BREWDETECTION_POWER; EEPROM.put(480, brewDetectionPower); DEBUG_print("EEPROM: brewDetectionPower (%0.2f) is read from userConfig.h\n", brewDetectionPower); }
-<<<<<<< HEAD
   if (SETPOINTSTEAM != setPointSteam_config_saved) { setPointSteam = SETPOINTSTEAM; EEPROM.put(490, setPointSteam); DEBUG_print("EEPROM: setPointSteam (%0.2f) is read from userConfig.h\n", setPointSteam); }
-  if (AGGKP != aggKpSteam_config_saved) { aggSteamKp = AGGSTEAMKP; EEPROM.put(500, aggSteamKp); }
-  if (AGGTN != aggTnSteam_config_saved) { aggSteamTn = AGGSTEAMTN; EEPROM.put(510, aggSteamTn); }
-  if (AGGTV != aggTvSteam_config_saved) { aggSteamTv = AGGSTEAMTV; EEPROM.put(520, aggSteamTv); }
-=======
-  if (SETPOINT_STEAM != setPointSteam_config_saved) { setPointSteam = SETPOINT_STEAM; EEPROM.put(490, setPointSteam); DEBUG_print("EEPROM: setPointSteam (%0.2f) is read from userConfig.h\n", setPointSteam); }
-  if (AGGSTEAMKP != aggSteamKp_config_saved) { aggSteamKp = AGGSTEAMKP; EEPROM.put(500, aggSteamKp); DEBUG_print("EEPROM: aggSteamKp (%u) is read from userConfig.h\n", aggSteamKp);}
-  if (AGGSTEAMTN != aggSteamTn_config_saved) { aggSteamTn = AGGSTEAMTN; EEPROM.put(510, aggSteamTn); DEBUG_print("EEPROM: aggSteamTn (%u) is read from userConfig.h\n", aggSteamTn);}
-  if (AGGSTEAMTV != aggSteamTv_config_saved) { aggSteamTv = AGGSTEAMTV; EEPROM.put(520, aggSteamTv); DEBUG_print("EEPROM: aggSteamTv (%u) is read from userConfig.h\n", aggSteamTv);}
->>>>>>> parent of b22d17d (Debug Sync eeprom)
+  if (AGGSTEAMKP != aggSteamKp_config_saved) { aggSteamKp = AGGSTEAMKP; EEPROM.put(500, aggSteamKp); }
+  if (AGGSTEAMTN != aggSteamTn_config_saved) { aggSteamTn = AGGSTEAMTN; EEPROM.put(510, aggSteamTn); }
+  if (AGGSTEAMTV != aggSteamTv_config_saved) { aggSteamTv = AGGSTEAMTV; EEPROM.put(520, aggSteamTv); }
 
 
   //save latest values to eeprom and sync back to blynk
