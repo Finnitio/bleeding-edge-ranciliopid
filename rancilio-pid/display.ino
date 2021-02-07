@@ -84,14 +84,8 @@ void displaymessage(int activeState, char* displaymessagetext, char* displaymess
               u8g2.drawXBMP(0,0, icon_width, icon_height, steam_bits);
             } else {
               u8g2.drawXBMP(0,0, icon_width, icon_height, steam_rotate_bits);
-            }            
-          case 7:  //steam possible
-            if (image_flip) {
-              u8g2.drawXBMP(0,0, icon_width, icon_height, steam_bits);
-            } else {
-              u8g2.drawXBMP(0,0, icon_width, icon_height, steam_rotate_bits);
             }
-            break;
+            break;         
           default:
             if (MACHINE_TYPE == "rancilio") {
               u8g2.drawXBMP(41,0, rancilio_logo_width, rancilio_logo_height, rancilio_logo_bits);
@@ -105,7 +99,7 @@ void displaymessage(int activeState, char* displaymessagetext, char* displaymess
   
         //display current and target temperature
         if (activeState > 0 && activeState != 4) {
-          if (Input - 100 > FLT_EPSILON) {
+          if (Input - 100 > -FLT_EPSILON) {
             align_right = align_right_3digits;
           } else {
             align_right = align_right_2digits;
@@ -119,7 +113,8 @@ void displaymessage(int activeState, char* displaymessagetext, char* displaymess
           u8g2.setFont(u8g2_font_open_iconic_embedded_1x_t);
           u8g2.drawGlyph(align_right-11, 3+7, 0x0046);
   
-          if (Input <= *activeSetPoint + 5 || activeState == 6) { //only show setpoint if we are not steaming
+          //if (Input <= *activeSetPoint + 5 || activeState == 6) { //only show setpoint if we are not steaming
+          if (!steaming) {
             if (*activeSetPoint >= 100 ) {
               align_right = align_right_3digits;
             } else {

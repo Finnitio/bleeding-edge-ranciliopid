@@ -81,8 +81,54 @@ Installation is as explained on http://rancilio-pid.de/ but with following adapa
 - Instructions can be found at https://github.com/medlor/bleeding-edge-ranciliopid/wiki/Instructions-on-how-to-create-new-icon-collections
 
 ## Changelog
-- 2.5.0 beta 1:
-  - TBD
+- 2.6.0 beta 4:
+  - !!ATTENTION: THIS VERSION IS NOT FULLY TESTED!!
+  - New feature: Set userConfig.h ROTATE_DISPLAY to rotate display 180 degree.
+  - New feature: BrewReadyLed (now called HardwareLed) configured with ENABLE_HARDWARE_LED also lights up when temp>steamTemp.
+- 2.6.0 beta 3:
+  - !!ATTENTION: THIS VERSION IS NOT FULLY TESTED!!
+  - Add MQTT Support to control actions using topics ../actions/<ACTION> with supported payloads of 0|1|-1. 
+    Example: "custom/Küche.Rancilio2/actions/STEAMING"
+  - Sample Config for IoTMQTTPanel: IoTMQTTPanel-210031_225507_v2.6.0beta3.json .
+- 2.6.0 beta 2:
+  - !!ATTENTION: THIS VERSION IS NOT YET TESTED!!
+  - Bugfix: DEBUG_FORCE_GPIO_CHECK working.
+  - Bugfix: Reduce number of generated logs.
+  - Changed EMERGENCY_TEMP default from 125 to 128.
+  - Changed SETPOINT_STEAM default from 116 to 114.
+- 2.6.0 beta 1:
+  - !!ATTENTION: THIS VERSION IS NOT YET TESTED!!
+  - Merged PR by finnito which changed/extended: (MANY THANKS FINNITO)
+    - Added support for ECM espresso maschine including logo.
+    - Added/Extended support for special functions (steam, hotwater, brew).
+    - Added custom steam functionality.
+    - Extended support to call special functions based on Pin A0 (analog levels) which can be used by eg. hardware buttons.
+    - Updated IoTMqttPanel config: IoTMQTTPanel-rancilio_v2.5.0_v1.json
+    - Added new state to state maschine (6=steam).
+  - Refactored/Extended finnito's code to integrate our new actionController():
+    - fully dynamic mapping of any(!) available analog/digital gpio port to custom functions, which are currently:
+      - BREWING   := start brewing
+      - HOTWATER  := start pouring hotwater
+      - STEAMING  := heat up maschine for streaming (POC ALPHA CODE. ONLY TEST WHEN NEAR MASCHINE TO BE ABLE TO SHUTDOWN MANUALLY!!)
+      - HEATER    := activate heater (not yet)
+      - PUMP      := activate pump (not yet)
+      - VALVE     := activate Valve  (not yet)
+      - CLEANING  := activate cleaning mode (not yet)
+      - TEMP_INC  := increase setPoint (not yet)
+      - TEMP_DEC  := decrease setPoint (not yet)
+    - while also supporting the switch types: toggles (eg switches) and triggers (eg push buttons)
+    - mqtt support to controll these functions will also be supported (not yet)
+  - Attention: Major userConfig adaptions. Create a backup!
+    - Added:
+      - SETPOINT_STEAM
+      - AGGSTEAM* (temporary)
+      - DEBUG_FORCE_GPIO_CHECK
+    - Removed:
+      - pinBrewButton (replaced by CONTROLS_CONFIG)
+      - EMERGENCY_ICON
+    - Changed:
+      - Default of userConfig EMERGENCY_TEMP from 116 to 125.
+      - Default of userConfig TEMPSENSORRECOVERY from 1 to 0.
 - 2.4.0 master:
   - Special winter theme added. Activate with ICON_COLLECTION=2 in userConfig.h.
   - Added support for a customizable screen-saver (#define ENABLE_SCREEN_SAVER)
@@ -281,8 +327,13 @@ Installation is as explained on http://rancilio-pid.de/ but with following adapa
 
 
 # Special Thanks
-To the great work of the rancilio-pid.de team, just to mention a few: andreas, markus, toppo78, miau.  
-Also to the nice people in the rancilio chat and the ones who contribute and give very much appreciated feedback like helge and Adrian!  
+To the great work of the rancilio-pid.de team.
+Also to the nice people in our rancilio discord channel and the ones who contribute and give very much appreciated feedback like 
+- helge/Helgelino
+- Adrian 
+- Finnito
+- PedroR/P1Rebo
+- nils-werner!  
   
 !! Thank you so much for the tasty cup of coffee I enjoy each day !!  
 
