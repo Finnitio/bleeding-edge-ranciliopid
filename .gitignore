@@ -2,3 +2,4 @@ userConfig.h
 *.bak
 *.swp
 .vscode
+rancilio-pid/userConfig_2.h
