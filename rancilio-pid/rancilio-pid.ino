@@ -758,7 +758,8 @@ void brew() {  //YYY2
       //  output_timestamp = aktuelleZeit;
       //}
       //ORIG: if (simulatedBrewSwitch && not (brewing == 0 && waitingForBrewSwitchOff) ) {
-      if (simulatedBrewSwitch && (brewing == 1 || waitingForBrewSwitchOff == false) ) {
+      if (simulatedBrewSwitch && (brewing == 1 || waitingForBrewSwitchOff == false)
+      && preinfusion + preinfusionpause + brewtime > 0 ) {
         totalbrewtime = (preinfusion + preinfusionpause + brewtime) * 1000;
         //userActivity = millis();
         
@@ -808,8 +809,14 @@ void brew() {  //YYY2
         waitingForBrewSwitchOff = true;  //just to be sure
         //digitalWrite(pinRelayVentil, relayOFF);  //already handled by brewing var
         //digitalWrite(pinRelayPumpe, relayOFF);
-        bezugsZeit = 0;
-        brewState = 0;        
+        startZeit = aktuelleZeit;
+        bezugsZeit = aktuelleZeit - startZeit;
+        brewing = 1;
+        DEBUG_println("Brew");
+        digitalWrite(pinRelayVentil, relayON);
+        digitalWrite(pinRelayPumpe, relayON);
+      } else if (simulatedBrewSwitch && brewing) {
+        bezugsZeit = aktuelleZeit - startZeit;
       } else if (!simulatedBrewSwitch) {
         if (waitingForBrewSwitchOff) {
           DEBUG_print("simulatedBrewSwitch=off\n");
